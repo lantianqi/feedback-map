@@ -7,6 +7,9 @@ function App() {
   const [userLocation, setUserLocation] = useState(null);
   const [userLatitude, setUserLatitude] = useState("");
   const [userLongitude, setUserLongitude] = useState("");
+  const [userDisplayName, setUserDisplayName] = useState("");
+  const [userMessage, setUserMessage] = useState("");
+
   const getUserLocation = () => {
     if (navigator.geolocation) {
       // what to do if supported
@@ -16,7 +19,7 @@ function App() {
           const { latitude, longitude } = position.coords;
 
           setUserLocation(position);
-          
+
           setUserLatitude(latitude);
           setUserLongitude(longitude);
 
@@ -33,8 +36,6 @@ function App() {
     }
   };
 
-  const [userMessage, setUserMessage] = useState("");
-
   const handleSubmit = (e) => {
     // prevent the browser from reloading the page
     e.preventDefault();
@@ -48,10 +49,11 @@ function App() {
   };
 
   const reset = () => {
-    console.log(userLocation)
+    console.log(userLocation);
     setUserLocation(null);
-    setUserLatitude("")
-    setUserLongitude("")
+    setUserLatitude("");
+    setUserLongitude("");
+    setUserDisplayName("");
     setUserMessage("");
   };
 
@@ -73,13 +75,11 @@ function App() {
       </header>
 
       <form method="post" onSubmit={handleSubmit}>
-        <label>
-          <label>
-            <h2>Get Your Location!</h2>
-            <button type="button" onClick={getUserLocation}>
-              Get
-            </button>
-            {/* {userLocation && (
+        <h2>Get Your Location!</h2>
+        <button type="button" onClick={getUserLocation}>
+          Get
+        </button>
+        {/* {userLocation && (
               <div>
                 <h2>User Location</h2>
                 <p>Latitude: {userLocation.latitude}</p>
@@ -87,18 +87,36 @@ function App() {
               </div>
             )} */}
 
-            <input type="checkbox" name="myCheckbox" />
-            <hr />
-            <label>
-              Latitude 
-              <input type="text" value={userLatitude} name="userLatitude" readOnly />
-            </label>
-            <hr />
-            <label>
-              Longitude 
-              <input type="text" value={userLongitude} name="userLongitude" readOnly />
-            </label>
-          </label>
+        <input type="checkbox" name="myCheckbox" />
+        <hr />
+        <label>
+          Latitude
+          <input
+            type="text"
+            value={userLatitude}
+            name="userLatitude"
+            readOnly
+          />
+        </label>
+        <hr />
+        <label>
+          Longitude
+          <input
+            type="text"
+            value={userLongitude}
+            name="userLongitude"
+            readOnly
+          />
+        </label>
+        <label>
+          <h2>Enter Your Name!</h2>
+          <input
+            value={userDisplayName}
+            name="displayName"
+            onChange={(e) => setUserDisplayName(e.target.value)}
+          />
+        </label>
+        <label>
           <h2>Leave Your Message!</h2>
           <textarea
             value={userMessage}
