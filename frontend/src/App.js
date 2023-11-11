@@ -47,8 +47,13 @@ function App() {
 
     const formJson = Object.fromEntries(formData.entries());
     console.log(formJson);
-
-    Axios.post("http://localhost:4000/insert", {
+    
+    const base_url = process.env.REACT_APP_TO_BACKEND_URL;
+    const port = process.env.REACT_APP_TO_BACKEND_PORT;
+    const backend_base_url = `${base_url}:${port}`;
+    const post_url = `${backend_base_url}/insert`;
+    console.log(post_url);
+    Axios.post(post_url, {
       displayName: userDisplayName,
       message: userMessage,
       userLatitude: userLatitude,
