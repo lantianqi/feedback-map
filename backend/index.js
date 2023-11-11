@@ -39,12 +39,13 @@ app.post("/insert", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 4000;
+app.get('/', (req, res) => {
+  res.status(200).json('Hello World!')
+})
 
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+module.exports = app;
