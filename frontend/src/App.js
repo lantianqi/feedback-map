@@ -41,6 +41,9 @@ function App() {
     // prevent the browser from reloading the page
     e.preventDefault();
 
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.REACT_APP_TO_BACKEND_URL);
+
     // read the form data
     const form = e.target;
     const formData = new FormData(form);
@@ -58,6 +61,8 @@ function App() {
       message: userMessage,
       userLatitude: userLatitude,
       userLongitude: userLongitude,
+    }).then(function (response) {
+      console.log(response);
     });
 
     console.log("Axios request sent!");
