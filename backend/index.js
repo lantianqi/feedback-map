@@ -1,13 +1,13 @@
-import express, { json } from 'express';
-import { connect } from 'mongoose';
-import cors from 'cors';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 const app = express();
-import FormData from './models/ReactDataSchema';
+const FormData= require('./models/ReactDataSchema')
 
-app.use(json());
+app.use(express.json());
 app.use(cors());
 
-connect('mongodb://localhost:27017/reactdata', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/reactdata', { useNewUrlParser: true });
 
 app.post('/insert', async(req, res) => {
     // const FirstName = req.body.firstName
