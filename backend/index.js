@@ -41,7 +41,11 @@ app.post("/insert", async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-  res.status(200).json('Hello World!')
+  res.status(200).json({
+    "msg": 'Hello World!',
+    "env": process.env.NODE_ENV,
+    "db_url": process.env.DB_URL
+  })
 })
 
 const port = process.env.PORT || 4000;
