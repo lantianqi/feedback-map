@@ -14,7 +14,8 @@ const client = new MongoClient(process.env.DB_URL);
 const myDB = client.db(process.env.DB_DB);
 const myColl = myDB.collection(process.env.DB_COLLECTION);
 
-client.connect(process.env.DB_URL);
+// client.connect(process.env.DB_URL);
+client.connect("mongodb+srv://feedback-map-admin:1cCzFj7UWRFAr4VV@feedback-map-cluster.lvynzsc.mongodb.net/?retryWrites=true&w=majority");
 
 app.post("/insert", async (req, res) => {
   const displayName = req.body.displayName;
@@ -39,7 +40,7 @@ app.post("/insert", async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   res.status(200).json('Hello World!')
 })
 
