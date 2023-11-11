@@ -1,39 +1,38 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 const express = require("express");
-const mongoose = require("mongoose");
+const { MongoClient } = require('mongodb');
 const cors = require("cors");
 const app = express();
-const FormData = require("./models/ReactDataSchema");
+const FormData = require("./models/FormData");
 
 app.use(express.json());
 app.use(cors());
 
-console.log(process.env.DB_COLLECTION);
+const client = new MongoClient(process.env.DB_URL);
 
-const db_url = `${process.env.DB_URL}/${process.env.DB_COLLECTION}`;
-// const db_url = "mongodb://localhost:27017/form_data";
-mongoose.connect(db_url, { useNewUrlParser: true });
+const myDB = client.db(process.env.DB_DB);
+const myColl = myDB.collection(process.env.DB_COLLECTION);
+
+client.connect(process.env.DB_URL);
 
 app.post("/insert", async (req, res) => {
-  // const FirstName = req.body.firstName
-  // const CompanyRole = req.body.companyRole
   const displayName = req.body.displayName;
   const message = req.body.message;
   const userLatitude = req.body.userLatitude;
   const userLongitude = req.body.userLongitude;
 
-  const formData = new FormData({
-    // name: FirstName,
-    // role: CompanyRole,
-    displayName: displayName,
-    message: message,
-    userLatitude: userLatitude,
-    userLongitude: userLongitude,
-  });
+  const formData = new FormData(
+    displayName,
+    message,
+    userLatitude,
+    userLongitude,
+  )
+  const doc = formData;
 
   try {
-    await formData.save();
+    const result = await myColl.insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
     res.send("inserted data..");
   } catch (err) {
     console.log(err);
