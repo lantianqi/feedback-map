@@ -18,18 +18,20 @@ const myDB = mongoClient.db("feedback-map-db");
 const myColl = myDB.collection("feedback-map-collection");
 mongoClient.connect("mongodb+srv://feedback-map-admin:1cCzFj7UWRFAr4VV@feedback-map-cluster.lvynzsc.mongodb.net/?retryWrites=true&w=majority");
 
-try {
-  console.log(process.env.NODE_ENV);
-  console.log(process.env.DB_URL);
-  console.log(process.env.DB_DB);
-  console.log(process.env.DB_COLLECTION);
-  const doc = { name: "NAME" };
-  const result = await myColl.insertOne(doc);
-  console.log(`A document was inserted with the _id: ${result.insertedId}`);
-  res.send("inserted data..");
-} catch (err) {
-  console.log(err);
-}
+app.post("/insert", async (req, res) => {
+  try {
+    console.log(process.env.NODE_ENV);
+    console.log(process.env.DB_URL);
+    console.log(process.env.DB_DB);
+    console.log(process.env.DB_COLLECTION);
+    const doc = { name: "NAME" };
+    const result = await myColl.insertOne(doc);
+    console.log(`A document was inserted with the _id: ${result.insertedId}`);
+    res.send("inserted data..");
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 app.get("/", (req, res) => {
   res.send("Hello World");
