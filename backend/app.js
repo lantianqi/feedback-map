@@ -13,6 +13,10 @@ const { MongoClient } = require("mongodb");
 // const myDB = mongoClient.db(process.env.DB_DB);
 // const myColl = myDB.collection(process.env.DB_COLLECTION);
 // mongoClient.connect(process.env.DB_URL);
+const mongoClient = new MongoClient("mongodb+srv://feedback-map-admin:1cCzFj7UWRFAr4VV@feedback-map-cluster.lvynzsc.mongodb.net/?retryWrites=true&w=majority");
+const myDB = mongoClient.db("feedback-map-db");
+const myColl = myDB.collection("feedback-map-collection");
+mongoClient.connect("mongodb+srv://feedback-map-admin:1cCzFj7UWRFAr4VV@feedback-map-cluster.lvynzsc.mongodb.net/?retryWrites=true&w=majority");
 
 try {
   console.log(process.env.NODE_ENV);
@@ -20,7 +24,7 @@ try {
   console.log(process.env.DB_DB);
   console.log(process.env.DB_COLLECTION);
   const doc = { name: "NAME" };
-  // const result = await myColl.insertOne(doc);
+  const result = await myColl.insertOne(doc);
   console.log(`A document was inserted with the _id: ${result.insertedId}`);
   res.send("inserted data..");
 } catch (err) {
