@@ -46,7 +46,7 @@ app.get('/', async (req, res) => {
     "env": process.env.NODE_ENV,
     "db_url": process.env.DB_URL
   })
-})
+});
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
