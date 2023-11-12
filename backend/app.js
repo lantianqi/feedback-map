@@ -9,10 +9,10 @@ app.use(express.json());
 app.use(cors());
 
 const { MongoClient } = require("mongodb");
-const mongoClient = new MongoClient(process.env.DB_URL);
-const myDB = mongoClient.db(process.env.DB_DB);
-const myColl = myDB.collection(process.env.DB_COLLECTION);
-mongoClient.connect(process.env.DB_URL);
+// const mongoClient = new MongoClient(process.env.DB_URL);
+// const myDB = mongoClient.db(process.env.DB_DB);
+// const myColl = myDB.collection(process.env.DB_COLLECTION);
+// mongoClient.connect(process.env.DB_URL);
 
 try {
   console.log(process.env.NODE_ENV);
