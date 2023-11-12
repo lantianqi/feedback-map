@@ -37,8 +37,8 @@ app.post("/insert", async (req, res) => {
     res.send("inserted data..");
   } catch (err) {
     console.log(err);
-  }
-});
+  };
+})
 
 app.get('/', async (req, res) => {
   res.status(200).json({
