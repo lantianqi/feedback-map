@@ -20,7 +20,7 @@ try {
   console.log(process.env.DB_DB);
   console.log(process.env.DB_COLLECTION);
   const doc = { name: "NAME" };
-  const result = await myColl.insertOne(doc);
+  // const result = await myColl.insertOne(doc);
   console.log(`A document was inserted with the _id: ${result.insertedId}`);
   res.send("inserted data..");
 } catch (err) {
