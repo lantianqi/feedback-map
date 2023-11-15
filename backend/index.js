@@ -9,6 +9,8 @@ const FormData = require("./models/FormData");
 app.use(express.json());
 app.use(cors());
 
+console.log(process.env);
+console.log(process.env.DB_URL);
 const client = new MongoClient(process.env.DB_URL);
 
 const myDB = client.db(process.env.DB_DB);
@@ -22,14 +24,19 @@ app.post("/insert", async (req, res) => {
   const message = req.body.message;
   const userLatitude = req.body.userLatitude;
   const userLongitude = req.body.userLongitude;
+  const userLocation = req.body.location;
 
-  const formData = new FormData(
+  console.log(req.body);
+
+  const doc = {
     displayName,
     message,
     userLatitude,
     userLongitude,
-  )
-  const doc = formData;
+    userLocation
+  }
+  // const doc = formData;
+  console.log(doc);
 
   try {
     const result = await myColl.insertOne(doc);
