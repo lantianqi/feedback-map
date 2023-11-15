@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import Axios from 'axios';
 
 function App() {
+  console.log(process.env);
+
   const [userLocation, setUserLocation] = useState(null);
   const [userLatitude, setUserLatitude] = useState("");
   const [userLongitude, setUserLongitude] = useState("");
@@ -20,6 +22,9 @@ function App() {
           const { latitude, longitude } = position.coords;
 
           setUserLocation(position);
+          console.log(position);
+
+          showCity(position);
 
           setUserLatitude(latitude);
           setUserLongitude(longitude);
@@ -37,6 +42,28 @@ function App() {
     }
   };
 
+  const showCity = (position) => {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    // Make a request to a Geocoding API (e.g. Google Maps Geocoding API)
+
+    const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+    console.log(GOOGLE_MAP_API_KEY);
+    const geocoding_url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_MAP_API_KEY}`;
+
+    fetch(geocoding_url)
+      .then((response) => response.json())
+      .then((data) => {
+        // Parse the city name from the API response
+        const city = data.results[0].address_components.find((component) =>
+          component.types.includes("locality")
+        ).long_name;
+
+        console.log(`Your city is ${city}.`);
+      })
+      .catch((error) => console.log(error));
+  };
+
   const handleSubmit = (e) => {
     // prevent the browser from reloading the page
     e.preventDefault();
@@ -49,6 +76,7 @@ function App() {
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
+    formJson.location = {"type": "Point", "coordinates": [userLatitude, userLongitude]};
     console.log(formJson);
     
     const base_url = process.env.REACT_APP_TO_BACKEND_URL;
@@ -61,6 +89,7 @@ function App() {
       message: userMessage,
       userLatitude: userLatitude,
       userLongitude: userLongitude,
+      location: {coordinates: [userLatitude, userLongitude]}
     }).then(function (response) {
       console.log(response);
     });
@@ -93,6 +122,8 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <iframe style={{background: "#FFFFFF", border: "none", width:640, height:480}} src="https://charts.mongodb.com/charts-lantianqi-feedback-map-fjizi/embed/charts?id=65536622-d266-4d51-853b-d15cb0ef7732&maxDataAge=3600&theme=light&autoRefresh=true"></iframe>
 
       <form method="post" onSubmit={handleSubmit}>
         <h2>Get Your Location!</h2>
