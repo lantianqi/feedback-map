@@ -81,7 +81,11 @@ function App() {
     
     const base_url = process.env.REACT_APP_TO_BACKEND_URL;
     const port = process.env.REACT_APP_TO_BACKEND_PORT;
-    const backend_base_url = `${base_url}:${port}`;
+    var backend_base_url = `${base_url}`;
+    if (process.env.NODE_ENV != "production") {
+      backend_base_url += `:${port}`;      
+    }
+
     const post_url = `${backend_base_url}/insert`;
     console.log(post_url);
     Axios.post(post_url, {
